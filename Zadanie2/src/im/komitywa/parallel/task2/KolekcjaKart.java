@@ -1,6 +1,7 @@
 package im.komitywa.parallel.task2;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -12,6 +13,7 @@ import java.util.List;
  */
 public class KolekcjaKart {
     private List<Karta> karty;
+    private int docelowyRozmiarKolekcji;
 
     public KolekcjaKart() {
         karty = new ArrayList<Karta>();
@@ -19,6 +21,7 @@ public class KolekcjaKart {
 
     public synchronized void wezKarte(Karta karta){
         karty.add(karta);
+        Collections.sort(karty);
     }
 
     public synchronized Karta oddajKarte(Karta karta){
@@ -27,16 +30,17 @@ public class KolekcjaKart {
     }
 
     public synchronized Karta znajdzSkrajna(boolean szukajNajmniejszej){
+
         Karta szukanaKarta = karty.get(0);
         for(Karta iterKarta: karty){
             if (szukajNajmniejszej) {
-                if (iterKarta.compareTo(szukanaKarta) < 0) {
+                if (iterKarta.compareTo(szukanaKarta) > 0) {
                     szukanaKarta = iterKarta;
                 }
             }
             else
             {
-                if (iterKarta.compareTo(szukanaKarta) > 0) {
+                if (iterKarta.compareTo(szukanaKarta) < 0) {
                     szukanaKarta = iterKarta;
                 }
             }
@@ -53,4 +57,22 @@ public class KolekcjaKart {
         return znajdzSkrajna(false);
     }
 
+    @Override
+    public synchronized String toString() {
+        return "KolekcjaKart{" +
+                "karty=" + karty +
+                '}';
+    }
+
+    public int getDocelowyRozmiarKolekcji() {
+        return docelowyRozmiarKolekcji;
+    }
+
+    public void setDocelowyRozmiarKolekcji(int docelowyRozmiarKolekcji) {
+        this.docelowyRozmiarKolekcji = docelowyRozmiarKolekcji;
+    }
+
+    public int getRozmiarKolekcji(){
+        return karty.size();
+    }
 }

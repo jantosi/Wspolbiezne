@@ -1,5 +1,7 @@
 package im.komitywa.parallel.task2;
 
+import java.util.concurrent.Semaphore;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -9,25 +11,41 @@ public class Main {
 
         jace.setNazwa("Jace");
         jace.setPartnerDoWymiany(lilliana);
-        Integer[] zbiorJ = new Integer[]{1,3,5,7,9,11,13,15,17,19};
+        jace.szukaNajmniejszych(true);
+        Integer[] zbiorJ = new Integer[]{1,3,5,13,15,17};
 
         KolekcjaKart kolekcjaKartJace = new KolekcjaKart();
         for(Integer val: zbiorJ){
             kolekcjaKartJace.wezKarte(new Karta(val));
         }
+        kolekcjaKartJace.setDocelowyRozmiarKolekcji(kolekcjaKartJace.getRozmiarKolekcji());
         jace.setK(kolekcjaKartJace);
 
 
         lilliana.setNazwa("Lilliana");
         lilliana.setPartnerDoWymiany(jace);
+        lilliana.szukaNajmniejszych(false);
         Integer[] zbiorL = new Integer[]{0,2,4,6,8,10,12,14,16,18};
 
         KolekcjaKart kolekcjaKartLilliana = new KolekcjaKart();
         for(Integer val: zbiorL){
             kolekcjaKartLilliana.wezKarte(new Karta(val));
         }
+        kolekcjaKartLilliana.setDocelowyRozmiarKolekcji(kolekcjaKartLilliana.getRozmiarKolekcji());
         lilliana.setK(kolekcjaKartLilliana);
 
+
+        Semaphore semaphoreJace = new Semaphore(0);
+        Semaphore semaphoreLilliana = new Semaphore(1);
+        jace.setSemaphore(semaphoreJace);
+        lilliana.setSemaphore(semaphoreLilliana);
+
+
+        Thread s = new Thread(jace);
+        Thread t = new Thread(lilliana);
+
+        s.start();
+        t.start();
 
     }
 }
