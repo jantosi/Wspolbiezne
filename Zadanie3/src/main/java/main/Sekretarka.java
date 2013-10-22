@@ -6,16 +6,34 @@ package main;
 import org.apache.log4j.Logger;
 
 /**
+ * Klasa reprezentujaca sekretarke.
+ * 
  * @author Rafał Kołodziejek
  * 
  */
 public class Sekretarka implements Runnable {
 
+	/**
+	 * Loger.
+	 */
 	private static final Logger logger = Logger.getLogger(Sekretarka.class);
 
+	/**
+	 * Czas pomiedzy zajrzeniem do dwoch sasiednich miejsc w skrytce.
+	 */
 	private long malaPrzerwa;
+
+	/**
+	 * Czas pomiedzy dwoma kolejnymi przegladaniami skrytki.
+	 */
 	private long duzaPrzerwa;
 
+	/**
+	 * Konstruktor.
+	 * 
+	 * @param malaPrzerwa czas pomiedzy zajrzeniem do dwoch sasiednich miejsc w skrytce
+	 * @param duzaPrzerwa czas pomiedzy dwoma kolejnymi przegladaniami skrytki
+	 */
 	public Sekretarka(long malaPrzerwa, long duzaPrzerwa) {
 		this.malaPrzerwa = malaPrzerwa;
 		this.duzaPrzerwa = duzaPrzerwa;
