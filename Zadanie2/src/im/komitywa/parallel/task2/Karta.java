@@ -23,13 +23,7 @@ public class Karta implements Comparable<Karta> {
     }
 
     public int compareTo(Karta najmniejszaKarta) {
-        if(this.value == najmniejszaKarta.getValue()){
-            return 0;
-        }
-        else if(this.value < najmniejszaKarta.getValue()){
-            return -1;
-        }
-        else return 1;
+        return Integer.compare(this.value, najmniejszaKarta.value);
     }
 
     @Override

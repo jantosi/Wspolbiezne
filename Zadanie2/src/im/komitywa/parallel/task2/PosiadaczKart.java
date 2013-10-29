@@ -34,17 +34,11 @@ public class PosiadaczKart implements Runnable{
      * @return true: karta przyjeta przez innego gracza. false: karta nieprzyjeta.
      */
     public synchronized boolean zaproponujKarte(Karta karta){
-
         try {
             semaphore.acquire();
         } catch (InterruptedException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
-
-//        while()
-//        {
-//
-//        }
 
         if(partnerDoWymiany.przyjmijKarte(karta)){
             k.oddajKarte(karta);
@@ -56,7 +50,6 @@ public class PosiadaczKart implements Runnable{
             semaphore.release();
             return false;
         }
-
     }
 
     public Karta podajSkrajnaKarteZKolekcji(boolean czyNajmniejsza){
@@ -68,42 +61,35 @@ public class PosiadaczKart implements Runnable{
      */
     @Override
     public void run() {
-        System.out.println(nazwa+": startuje.");
+        System.out.println(this+": startuje.");
 
-        Karta skrajnaKartaPartnera;
+//        Karta skrajnaKartaPartnera;
+//        Karta skrajnaMoja;
 
         while(!"hell".equals("frozen over")){
+            System.out.println(nazwa+": szuka "+(czySzukaNajmniejszych() ? "najmniejszych" : "największych"));
 
-            skrajnaKartaPartnera = partnerDoWymiany.podajSkrajnaKarteZKolekcji(!czySzukaNajmniejszych());
-
-            if (czySzukaNajmniejszych()) {
-                System.out.println(nazwa+": szuka najmniejszych. Skrajna karta partnera: "+skrajnaKartaPartnera);
-                Karta skrajnaMoja = podajSkrajnaKarteZKolekcji(czySzukaNajmniejszych());
-                System.out.println(nazwa+": Skrajna moja: "+skrajnaMoja);
-                boolean war = skrajnaKartaPartnera.compareTo(skrajnaMoja)>0;
-                if (war) {
-                    System.out.println(nazwa+": break");
-                    break;
-                }
-            }
-            else {
-                System.out.println(nazwa+": szuka największych. Skrajna karta partnera: "+skrajnaKartaPartnera);
-                Karta skrajnaMoja = podajSkrajnaKarteZKolekcji(czySzukaNajmniejszych());
-                System.out.println(nazwa+": Skrajna moja: "+skrajnaMoja);
-                boolean war =skrajnaKartaPartnera.compareTo(skrajnaMoja)<0;
-                if (war) {
-                    System.out.println(nazwa+": break");
-                    break;
-                }
+            Karta skrajnaKartaPartnera = partnerDoWymiany.podajSkrajnaKarteZKolekcji(!czySzukaNajmniejszych());
+            System.out.println(nazwa+": Skrajna karta partnera: "+skrajnaKartaPartnera);
+            
+            Karta skrajnaMoja = podajSkrajnaKarteZKolekcji(czySzukaNajmniejszych());
+            System.out.println(nazwa+": Skrajna moja: "+skrajnaMoja);
+            
+            int compare = skrajnaKartaPartnera.compareTo(skrajnaMoja);
+            boolean war = compare!=0 && ((compare<0) ^ czySzukaNajmniejszych());
+            if (war) {
+                System.out.println(nazwa+": break");
+                break;
             }
 
-            Karta kartaDoWymiany = podajSkrajnaKarteZKolekcji(czySzukaNajmniejszych());
-            zaproponujKarte(kartaDoWymiany);
+            zaproponujKarte(skrajnaMoja);
 
-            System.out.println(this+": proponuje kartę do wymiany: "+kartaDoWymiany);
+            System.out.println(this+": proponuje kartę do wymiany: "+skrajnaMoja);
         }
+        
+        System.out.println(nazwa+": bylo "+k.getDocelowyRozmiarKolekcji()+"; jest "+k.getRozmiarKolekcji());
 
-        System.out.println(this.toString());
+        System.out.println(this+": konczy.");
     }
 
 

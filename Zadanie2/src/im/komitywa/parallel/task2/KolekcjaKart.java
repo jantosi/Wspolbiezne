@@ -30,31 +30,11 @@ public class KolekcjaKart {
     }
 
     public synchronized Karta znajdzSkrajna(boolean szukajNajmniejszej){
-
-        Karta szukanaKarta = karty.get(0);
-        for(Karta iterKarta: karty){
-            if (szukajNajmniejszej) {
-                if (iterKarta.compareTo(szukanaKarta) > 0) {
-                    szukanaKarta = iterKarta;
-                }
-            }
-            else
-            {
-                if (iterKarta.compareTo(szukanaKarta) < 0) {
-                    szukanaKarta = iterKarta;
-                }
-            }
+        if(szukajNajmniejszej) {
+            return karty.get(karty.size() - 1);
+        } else {
+            return karty.get(0);
         }
-
-        return szukanaKarta;
-    }
-
-    public synchronized Karta znajdzNajmniejsza(){
-        return znajdzSkrajna(true);
-    }
-
-    public synchronized Karta znajdzNajwieksza(){
-        return znajdzSkrajna(false);
     }
 
     @Override
