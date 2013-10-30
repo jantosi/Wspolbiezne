@@ -15,103 +15,89 @@ public class PosiadaczKart implements Runnable{
 
     private KolekcjaKart k;
     private PosiadaczKart partnerDoWymiany;
-    private Semaphore semaphore;
-
-    /**
-     * Posiadacz otrzymuje kartę i rozpatruje, czy pasuje mu do wymiany.
-     *
-     * @param karta Karta zaproponowana na wymiane
-     * @return true: karta przyjęta. false: karta odrzucona.
-     */
-    public boolean przyjmijKarte(Karta karta){
-        k.wezKarte(karta);
-        return true;
-    }
-
-    /** Posiadacz proponuje do wymiany jedna ze swoich kart.
-     *
-     * @param karta Karta do wymiany.
-     * @return true: karta przyjeta przez innego gracza. false: karta nieprzyjeta.
-     */
-    public synchronized boolean zaproponujKarte(Karta karta){
-        try {
-            semaphore.acquire();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        if(partnerDoWymiany.przyjmijKarte(karta)){
-            k.oddajKarte(karta);
-            partnerDoWymiany.getSemaphore().release();
-            return true;
-        }
-        else{
-            k.wezKarte(karta);
-            semaphore.release();
-            return false;
-        }
-    }
+    private Semaphore semaphoreWrite = new Semaphore(1);
+    private Semaphore semaphoreRead = new Semaphore(0);
+    private Karta skrajnaKarta = new Karta(0);
 
     public Karta podajSkrajnaKarteZKolekcji(boolean czyNajmniejsza){
         return k.znajdzSkrajna(czyNajmniejsza);
     }
 
-    /**
-     * Uruchom wątek.
-     */
-    @Override
-    public void run() {
-        System.out.println(this+": startuje.");
+/**
+ * Uruchom wątek.
+ */
+@Override
+public void run() {
+    System.out.println(this+": startuje.");
 
-//        Karta skrajnaKartaPartnera;
-//        Karta skrajnaMoja;
+    while(!"hell".equals("frozen over"))
+    {
+        System.out.println(nazwa+": szuka "+(czySzukaNajmniejszych() ? "najmniejszych" : "największych"));
 
-        while(!"hell".equals("frozen over")){
-            System.out.println(nazwa+": szuka "+(czySzukaNajmniejszych() ? "najmniejszych" : "największych"));
+        Karta skrajnaMoja = podajSkrajnaKarteZKolekcji(czySzukaNajmniejszych());
+        System.out.println(nazwa+": Skrajna moja: "+skrajnaMoja);
 
-            Karta skrajnaKartaPartnera = partnerDoWymiany.podajSkrajnaKarteZKolekcji(!czySzukaNajmniejszych());
-            System.out.println(nazwa+": Skrajna karta partnera: "+skrajnaKartaPartnera);
-            
-            Karta skrajnaMoja = podajSkrajnaKarteZKolekcji(czySzukaNajmniejszych());
-            System.out.println(nazwa+": Skrajna moja: "+skrajnaMoja);
-            
-            int compare = skrajnaKartaPartnera.compareTo(skrajnaMoja);
-            boolean war = compare!=0 && ((compare<0) ^ czySzukaNajmniejszych());
-            if (war) {
-                System.out.println(nazwa+": break");
-                break;
-            }
-
-            zaproponujKarte(skrajnaMoja);
-
-            System.out.println(this+": proponuje kartę do wymiany: "+skrajnaMoja);
+        try {
+            partnerDoWymiany.semaphoreWrite.acquire();
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
-        
-        System.out.println(nazwa+": bylo "+k.getDocelowyRozmiarKolekcji()+"; jest "+k.getRozmiarKolekcji());
+        partnerDoWymiany.skrajnaKarta = skrajnaMoja;
+        partnerDoWymiany.semaphoreRead.release();
 
-        System.out.println(this+": konczy.");
+        try {
+            semaphoreRead.acquire();
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        Karta skrajnaKartaPartnera = skrajnaKarta;
+        System.out.println(nazwa+": Skrajna karta partnera: "+skrajnaKartaPartnera);
+        semaphoreWrite.release();
+
+        int compare = skrajnaKartaPartnera.compareTo(skrajnaMoja);
+        boolean war = czySzukaNajmniejszych() ? compare > 0 : compare < 0;
+        if (war) {
+            System.out.println(nazwa+": break");
+            break;
+        }
+
+        System.out.println(this+": proponuje kartę do wymiany: "+skrajnaMoja);
+
+        k.oddajKarte(skrajnaMoja);
+        k.wezKarte(skrajnaKartaPartnera);
     }
 
+    System.out.println(nazwa+": bylo "+k.getDocelowyRozmiarKolekcji()+"; jest "+k.getRozmiarKolekcji());
 
-    public KolekcjaKart getK() {
-        return k;
+    if (k.getDocelowyRozmiarKolekcji() != k.getRozmiarKolekcji()) {
+        throw new RuntimeException("nie zgadza sie");
     }
+
+    System.out.println(this+": konczy.");
+}
+
+
+//    public KolekcjaKart getK() {
+//        return k;
+//    }
 
     public void setK(KolekcjaKart k) {
         this.k = k;
     }
 
-    public PosiadaczKart getPartnerDoWymiany() {
-        return partnerDoWymiany;
-    }
+//    public PosiadaczKart getPartnerDoWymiany() {
+//        return partnerDoWymiany;
+//    }
 
     public void setPartnerDoWymiany(PosiadaczKart partnerDoWymiany) {
         this.partnerDoWymiany = partnerDoWymiany;
     }
 
-    public String getNazwa() {
-        return nazwa;
-    }
+//    public String getNazwa() {
+//        return nazwa;
+//    }
 
     public void setNazwa(String nazwa) {
         this.nazwa = nazwa;
@@ -133,11 +119,11 @@ public class PosiadaczKart implements Runnable{
                 '}';
     }
 
-    public void setSemaphore(Semaphore semaphore) {
-        this.semaphore = semaphore;
-    }
+//    public void setSemaphore(Semaphore semaphore) {
+//        this.semaphore = semaphore;
+//    }
 
-    public Semaphore getSemaphore() {
-        return semaphore;
-    }
+//    public Semaphore getSemaphore() {
+//        return semaphore;
+//    }
 }

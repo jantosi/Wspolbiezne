@@ -1,7 +1,5 @@
 package im.komitywa.parallel.task2;
 
-import java.util.concurrent.Semaphore;
-
 public class Main {
 
     public static void main(String[] args) {
@@ -33,12 +31,6 @@ public class Main {
         }
         kolekcjaKartLilliana.setDocelowyRozmiarKolekcji(kolekcjaKartLilliana.getRozmiarKolekcji());
         lilliana.setK(kolekcjaKartLilliana);
-
-
-        Semaphore semaphoreJace = new Semaphore(0);
-        Semaphore semaphoreLilliana = new Semaphore(1);
-        jace.setSemaphore(semaphoreJace);
-        lilliana.setSemaphore(semaphoreLilliana);
 
 
         Thread s = new Thread(jace);
