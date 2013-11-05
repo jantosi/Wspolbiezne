@@ -6,6 +6,11 @@ package main;
 import java.util.LinkedList;
 import java.util.List;
 
+import pracownicy.Dyrektor;
+import pracownicy.Sekretarka;
+
+import wiadomosci.Skrytka;
+
 /**
  * @author Rafał Kołodziejek
  * 

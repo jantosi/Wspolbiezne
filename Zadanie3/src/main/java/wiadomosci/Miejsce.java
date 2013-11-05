@@ -1,7 +1,7 @@
 /**
  * 
  */
-package main;
+package wiadomosci;
 
 import org.apache.log4j.Logger;
 

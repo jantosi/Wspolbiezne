@@ -1,9 +1,13 @@
 /**
  * 
  */
-package main;
+package pracownicy;
+
+import main.Main;
 
 import org.apache.log4j.Logger;
+
+import wiadomosci.Miejsce;
 
 /**
  * Klasa reprezentujaca sekretarke.

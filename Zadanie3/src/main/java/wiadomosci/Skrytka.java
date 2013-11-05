@@ -1,7 +1,7 @@
 /**
  * 
  */
-package main;
+package wiadomosci;
 
 /**
  * Klasa reprezentujaca skrytke z miejscami na komunikaty.
