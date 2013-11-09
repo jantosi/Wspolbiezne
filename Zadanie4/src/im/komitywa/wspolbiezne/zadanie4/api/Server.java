@@ -1,4 +1,4 @@
-package im.komitywa.wspolbiezne.zadanie4;
+package im.komitywa.wspolbiezne.zadanie4.api;
 
 public interface Server extends Runnable {
     void addTaskToQueue(Task task);
