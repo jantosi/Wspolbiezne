@@ -44,15 +44,15 @@ public class Dyrektor implements Runnable {
 
 	public void run() {
 		int licznik = Main.licznik;
-		while (licznik-- > 0) {
+		while (licznik > 0) {
 			try {
 				if (Main.skrytka.getMiejsca()[k].dodajKomunikat()) {
 					if (logger.isInfoEnabled()) {
 						logger.info("dyrektor " + k + " dodal komunikat");
 					}
+					licznik--;
 				}
 				Thread.sleep(przerwa);
-				// wait(przerwa);
 			} catch (InterruptedException e) {
 				logger.error(e, e);
 			}

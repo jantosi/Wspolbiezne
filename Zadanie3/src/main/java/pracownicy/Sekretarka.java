@@ -57,10 +57,8 @@ public class Sekretarka implements Runnable {
 					}
 					i++;
 					Thread.sleep(malaPrzerwa);
-					// wait(malaPrzerwa);
 				}
 				Thread.sleep(duzaPrzerwa);
-				// wait(duzaPrzerwa);
 			}
 		} catch (InterruptedException e) {
 			logger.error(e, e);

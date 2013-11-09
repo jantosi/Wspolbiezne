@@ -30,8 +30,15 @@ public class Miejsce {
 	 */
 	public boolean dodajKomunikat() {
 		synchronized (komunikaty) {
-			komunikaty++;
-			return true;
+//			komunikaty++;
+//			return true;
+			if (komunikaty == 0) {
+				komunikaty++;
+				return true;
+			} else {
+				logger.warn("komunikat juz jest");
+				return false;
+			}
 		}
 	}
 
@@ -43,7 +50,7 @@ public class Miejsce {
 	 */
 	public boolean usunKomunikat() {
 		synchronized (komunikaty) {
-			if (komunikaty > 0) {
+			if (komunikaty == 1) {
 				komunikaty--;
 				return true;
 			} else {
