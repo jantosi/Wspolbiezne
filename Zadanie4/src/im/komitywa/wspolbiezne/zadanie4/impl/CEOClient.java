@@ -10,7 +10,7 @@ public class CEOClient implements Client {
 
     @Override
     public TaskResult executeTaskOnServer(Task task) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    	throw new UnsupportedOperationException("not implemented yet");
     }
 
     public Server getServer() {
@@ -20,4 +20,9 @@ public class CEOClient implements Client {
     public void setServer(Server server) {
         this.server = server;
     }
+
+	@Override
+	public void run() {
+		throw new UnsupportedOperationException("not implemented yet");
+	}
 }

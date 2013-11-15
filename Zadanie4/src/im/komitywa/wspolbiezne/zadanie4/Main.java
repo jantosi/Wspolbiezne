@@ -8,16 +8,23 @@ import im.komitywa.wspolbiezne.zadanie4.impl.OfficeExecutiveClient;
 
 public class Main {
 
+    private static int liczbaDyrektorow = 10;
+
     public static void main(String[] args) {
         Server skrytki = new DocumentStorageServer(1);
 
         Client sekretarka = new OfficeExecutiveClient();
         sekretarka.setServer(skrytki);
-        Client dyrektorPierwszy = new CEOClient();
-        dyrektorPierwszy.setServer(skrytki);
-        Client dyrektorDrugi = new CEOClient();
-        dyrektorDrugi.setServer(skrytki);
 
+        Client dyrektorzy[] = new CEOClient[liczbaDyrektorow];
+        for (int i = 0; i < liczbaDyrektorow; i++) {
+            dyrektorzy[i] = new CEOClient();
+            dyrektorzy[i].setServer(skrytki);
+        }
 
+        new Thread(sekretarka, Integer.toString(-1)).start();
+        for (int i = 0; i < liczbaDyrektorow; i++) {
+            new Thread(dyrektorzy[i], Integer.toString(i)).start();
+        }
     }
 }
