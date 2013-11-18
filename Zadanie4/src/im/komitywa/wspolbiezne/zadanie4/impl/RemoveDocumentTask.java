@@ -6,17 +6,30 @@ import im.komitywa.wspolbiezne.zadanie4.api.TaskResult;
 
 public class RemoveDocumentTask implements Task {
     private Server runningInstance;
+    private int CEOClientNumber;
 
     @Override
     public TaskResult execute() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+		return ((DocumentStorageServer)getRunningInstance()).removeDocument(getCEOClientNumber());
     }
 
+	@Override
     public Server getRunningInstance() {
         return runningInstance;
     }
 
+	@Override
     public void setRunningInstance(Server runningInstance) {
         this.runningInstance = runningInstance;
     }
+
+	@Override
+	public int getCEOClientNumber() {
+		return CEOClientNumber;
+	}
+
+	@Override
+	public void setCEOClientNumber(int CEOClientNumber) {
+		this.CEOClientNumber = CEOClientNumber;
+	}
 }

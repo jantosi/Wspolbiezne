@@ -7,11 +7,13 @@ import im.komitywa.wspolbiezne.zadanie4.impl.DocumentStorageServer;
 import im.komitywa.wspolbiezne.zadanie4.impl.OfficeExecutiveClient;
 
 public class Main {
+	
+	public static final int INF = 10;
 
     private static int liczbaDyrektorow = 10;
 
     public static void main(String[] args) {
-        Server skrytki = new DocumentStorageServer(1);
+        Server skrytki = new DocumentStorageServer(liczbaDyrektorow);
 
         Client sekretarka = new OfficeExecutiveClient();
         sekretarka.setServer(skrytki);

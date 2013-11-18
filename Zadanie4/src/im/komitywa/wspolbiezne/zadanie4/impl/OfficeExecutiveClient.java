@@ -1,5 +1,6 @@
 package im.komitywa.wspolbiezne.zadanie4.impl;
 
+import im.komitywa.wspolbiezne.zadanie4.Main;
 import im.komitywa.wspolbiezne.zadanie4.api.Client;
 import im.komitywa.wspolbiezne.zadanie4.api.Server;
 import im.komitywa.wspolbiezne.zadanie4.api.Task;
@@ -24,8 +25,10 @@ public class OfficeExecutiveClient implements Client{
 	@Override
 	public void run() {
 		System.out.println("sekretarka zaczyna prace");
-		for (int i = 0; i < -1; i++) {
-			getServer().addTaskToQueue(new RemoveDocumentTask());
+		for (int i = 0; i < Main.INF; i++) {
+			RemoveDocumentTask removeDocumentTask = new RemoveDocumentTask();
+			removeDocumentTask.setRunningInstance(getServer());
+			getServer().addTaskToQueue(removeDocumentTask);
 			System.out.println("sekretarka usuwa komunikat");
 		}
 	}
