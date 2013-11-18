@@ -23,6 +23,10 @@ public class OfficeExecutiveClient implements Client{
 
 	@Override
 	public void run() {
-		throw new UnsupportedOperationException("not implemented yet");
+		System.out.println("sekretarka zaczyna prace");
+		for (int i = 0; i < -1; i++) {
+			getServer().addTaskToQueue(new RemoveDocumentTask());
+			System.out.println("sekretarka usuwa komunikat");
+		}
 	}
 }

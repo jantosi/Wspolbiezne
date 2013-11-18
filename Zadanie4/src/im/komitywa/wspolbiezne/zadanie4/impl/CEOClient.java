@@ -6,23 +6,28 @@ import im.komitywa.wspolbiezne.zadanie4.api.Task;
 import im.komitywa.wspolbiezne.zadanie4.api.TaskResult;
 
 public class CEOClient implements Client {
-    private Server server;
 
-    @Override
-    public TaskResult executeTaskOnServer(Task task) {
-    	throw new UnsupportedOperationException("not implemented yet");
-    }
+	private Server server;
 
-    public Server getServer() {
-        return server;
-    }
+	@Override
+	public TaskResult executeTaskOnServer(Task task) {
+		throw new UnsupportedOperationException("not implemented yet");
+	}
 
-    public void setServer(Server server) {
-        this.server = server;
-    }
+	public Server getServer() {
+		return server;
+	}
+
+	public void setServer(Server server) {
+		this.server = server;
+	}
 
 	@Override
 	public void run() {
-		throw new UnsupportedOperationException("not implemented yet");
+		System.out.println("dyrektor zaczyna prace");
+		for (int i = 0; i < -1; i++) {
+			getServer().addTaskToQueue(new AddDocumentTask());
+			System.out.println("dyrektor dodaje komunikat");
+		}
 	}
 }

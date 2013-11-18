@@ -22,6 +22,7 @@ public class Main {
             dyrektorzy[i].setServer(skrytki);
         }
 
+        new Thread(skrytki, Integer.toString(-2)).start();
         new Thread(sekretarka, Integer.toString(-1)).start();
         for (int i = 0; i < liczbaDyrektorow; i++) {
             new Thread(dyrektorzy[i], Integer.toString(i)).start();
