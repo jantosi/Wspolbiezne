@@ -1,5 +1,7 @@
 package im.komitywa.wspolbiezne.zadanie4.impl;
 
+import java.util.ArrayList;
+
 import im.komitywa.wspolbiezne.zadanie4.Main;
 import im.komitywa.wspolbiezne.zadanie4.api.Client;
 import im.komitywa.wspolbiezne.zadanie4.api.Server;
@@ -25,11 +27,8 @@ public class OfficeExecutiveClient implements Client{
 	@Override
 	public void run() {
 		System.out.println("sekretarka zaczyna prace");
-		for (int i = 0; i < Main.INF; i++) {
-			RemoveDocumentTask removeDocumentTask = new RemoveDocumentTask();
-			removeDocumentTask.setRunningInstance(getServer());
-			getServer().addTaskToQueue(removeDocumentTask);
-			System.out.println("sekretarka usuwa komunikat");
+		for (int i = 0; i < Main.INF * Main.liczbaDyrektorow; i++) {
+			throw new UnsupportedOperationException("not implemented yet");
 		}
 	}
 }

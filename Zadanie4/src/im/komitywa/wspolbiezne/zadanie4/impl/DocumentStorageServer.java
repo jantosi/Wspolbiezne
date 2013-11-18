@@ -49,47 +49,36 @@ public class DocumentStorageServer implements Server {
 		}
 	}
 
-    @Override
-    public void run() {
+	@Override
+	public void run() {
+		System.out.println("serwer zaczyna prace");
 		try {
-			System.out.println("serwer zaczyna prace");
-			for (int i = 0; i < Main.INF; i++) {
-				synchronized (documents) {
-					if (!taskQueue.isEmpty()) {
-						processTask(getNextTaskFromQueue());
-						System.out.println("przetworzono zadanie");
-					}
-				}
-				Thread.sleep(1000);
-			}
+			Thread.sleep(500);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    }
+		throw new UnsupportedOperationException("not implemented yet");
+	}
 
-	public TaskResult addDocument(int CEOClientNumber) {
+	public boolean addDocument(int clientNumber, Document document) {
 		synchronized (documents) {
-			if (documents.get(CEOClientNumber).isEmpty()) {
-				documents.get(CEOClientNumber).add(new Document());
-				System.out.println("dodano dokument do skrytki nr " + CEOClientNumber);
-				return new AddDocumentTaskResult();
+			if (documents.get(clientNumber).isEmpty()) {
+				documents.get(clientNumber).add(document);
+				return true;
 			} else {
-				System.out.println("skrytka nr " + CEOClientNumber + " jest pelna");
-				return new AddDocumentTaskResult();
+				return false;
 			}
 		}
 	}
 
-	public TaskResult removeDocument(int CEOClientNumber) {
+	public boolean removeDocument(int clientNumber, Document document) {
 		synchronized (documents) {
-			if (documents.get(CEOClientNumber).isEmpty()) {
-				System.out.println("nie ma dokumentow w skrytce nr " + CEOClientNumber);
-				return new AddDocumentTaskResult();
+			if (!documents.get(clientNumber).isEmpty()) {
+				documents.get(clientNumber).remove(document);
+				return true;
 			} else {
-				documents.get(CEOClientNumber).remove(0);
-				System.out.println("ususnieto dokument ze skrytki nr " + CEOClientNumber);
-				return new AddDocumentTaskResult();
+				return false;
 			}
 		}
 	}

@@ -10,7 +10,7 @@ public class Main {
 	
 	public static final int INF = 10;
 
-    private static int liczbaDyrektorow = 10;
+    public static int liczbaDyrektorow = 10;
 
     public static void main(String[] args) {
         Server skrytki = new DocumentStorageServer(liczbaDyrektorow);
@@ -20,7 +20,7 @@ public class Main {
 
         Client dyrektorzy[] = new CEOClient[liczbaDyrektorow];
         for (int i = 0; i < liczbaDyrektorow; i++) {
-            dyrektorzy[i] = new CEOClient();
+            dyrektorzy[i] = new CEOClient(i);
             dyrektorzy[i].setServer(skrytki);
         }
 

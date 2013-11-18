@@ -1,16 +1,17 @@
 package im.komitywa.wspolbiezne.zadanie4.impl;
 
+import java.util.ArrayList;
+
 import im.komitywa.wspolbiezne.zadanie4.api.Server;
 import im.komitywa.wspolbiezne.zadanie4.api.Task;
 import im.komitywa.wspolbiezne.zadanie4.api.TaskResult;
 
 public class AddDocumentTask implements Task {
     private Server runningInstance;
-    private int CEOClientNumber;
 
 	@Override
     public TaskResult execute() {
-		return ((DocumentStorageServer)getRunningInstance()).addDocument(getCEOClientNumber());
+		throw new UnsupportedOperationException("not implemented yet");
     }
 
 	@Override
@@ -24,12 +25,7 @@ public class AddDocumentTask implements Task {
     }
 
 	@Override
-	public int getCEOClientNumber() {
-		return CEOClientNumber;
-	}
-
-	@Override
-	public void setCEOClientNumber(int CEOClientNumber) {
-		this.CEOClientNumber = CEOClientNumber;
+	public String toString() {
+		return "Add";
 	}
 }
