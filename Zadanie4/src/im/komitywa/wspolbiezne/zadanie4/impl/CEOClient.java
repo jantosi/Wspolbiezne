@@ -11,6 +11,7 @@ public class CEOClient implements Client {
 
 	private Server server;
 	private Storage storage;
+	private int liczbaDodanychZadan = 0;
 
 	public CEOClient(Storage storage) {
 		this.storage = storage;
@@ -45,12 +46,13 @@ public class CEOClient implements Client {
 			addDocumentTask.setRunningInstance(server);
 			server.addTaskToQueue(addDocumentTask);
 			System.out.println("dyrektor ze skrytka " + storage + " dodal zadanie: " + addDocumentTask);
+			liczbaDodanychZadan++;
 			try {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {
 			}
 		}
-		System.out.println("dyrektor " + this + " skonczyl prace");
+		System.out.println("dyrektor " + this + " skonczyl prace - liczba dodanych zadan: " + liczbaDodanychZadan);
 	}
 
 	@Override

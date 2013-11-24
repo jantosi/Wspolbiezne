@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class OfficeExecutiveClient implements Client {
 	private Server server;
 	private ArrayList<DocumentStorage> storages;
+	private int liczbaDodanychZadan = 0;
 
 	public OfficeExecutiveClient(ArrayList<DocumentStorage> storages) {
 		this.storages = storages;
@@ -46,13 +47,14 @@ public class OfficeExecutiveClient implements Client {
 				removeDocumentTask.setRunningInstance(server);
 				server.addTaskToQueue(removeDocumentTask);
 				System.out.println("sekretarka dodala zadanie: " + removeDocumentTask);
+				liczbaDodanychZadan++;
 				try {
 					Thread.sleep(500);
 				} catch (InterruptedException e) {
 				}
 			}
 		}
-		System.out.println("sekretarka " + this + " skonczyla prace");
+		System.out.println("sekretarka " + this + " skonczyla prace - liczba dodanych zadan: " + liczbaDodanychZadan);
 	}
 
 	@Override

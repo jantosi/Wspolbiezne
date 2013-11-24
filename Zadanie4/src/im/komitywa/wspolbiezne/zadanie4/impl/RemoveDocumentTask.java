@@ -15,7 +15,7 @@ class RemoveDocumentTask implements Task {
 
 	@Override
 	public TaskResult execute() {
-		System.out.println("zadanie " + this + " jest wykonywane");
+		// System.out.println("zadanie " + this + " jest wykonywane");
 		boolean success = ((DocumentStorageServer) runningInstance).removeDocument(storage, new Document());
 		return success ? new RemoveDocumentTaskResult() : null;
 	}

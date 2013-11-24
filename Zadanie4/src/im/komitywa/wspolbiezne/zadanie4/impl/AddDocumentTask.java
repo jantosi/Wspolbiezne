@@ -16,7 +16,7 @@ class AddDocumentTask implements Task {
 
 	@Override
 	public TaskResult execute() {
-		System.out.println("zadanie " + this + " jest wykonywane");
+		// System.out.println("zadanie " + this + " jest wykonywane");
 		boolean success = ((DocumentStorageServer) runningInstance).addDocument(storage, new Document());
 		return success ? new AddDocumentTaskResult() : null;
 	}

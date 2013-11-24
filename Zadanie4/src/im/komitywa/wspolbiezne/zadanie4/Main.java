@@ -8,12 +8,12 @@ import im.komitywa.wspolbiezne.zadanie4.impl.OfficeExecutiveClient;
 
 public class Main {
 
-	public static final int INF = 3;
+	public static final int INF = 10;
 
-	public static int liczbaDyrektorow = 1;
+	public static int liczbaDyrektorow = 7;
 
 	public static void main(String[] args) {
-		Server skrytki = new DocumentStorageServer(liczbaDyrektorow);
+		Server skrytki = new DocumentStorageServer();
 
 		Client sekretarka = new OfficeExecutiveClient(((DocumentStorageServer) skrytki).getSkrytki());
 		sekretarka.setServer(skrytki);
