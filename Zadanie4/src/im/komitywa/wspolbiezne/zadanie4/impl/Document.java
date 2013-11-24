@@ -1,13 +1,13 @@
 package im.komitywa.wspolbiezne.zadanie4.impl;
 
 public class Document {
-    private Double content;
+	private Double content;
 
-    public Document() {
-        content = Math.random();
-    }
+	public Document() {
+		content = Math.random();
+	}
 
-    public Double getContent() {
-        return content;
-    }
+	public Double getContent() {
+		return content;
+	}
 }

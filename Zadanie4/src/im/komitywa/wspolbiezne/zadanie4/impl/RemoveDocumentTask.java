@@ -1,31 +1,37 @@
 package im.komitywa.wspolbiezne.zadanie4.impl;
 
-import java.util.ArrayList;
-
 import im.komitywa.wspolbiezne.zadanie4.api.Server;
 import im.komitywa.wspolbiezne.zadanie4.api.Task;
 import im.komitywa.wspolbiezne.zadanie4.api.TaskResult;
 
-public class RemoveDocumentTask implements Task {
-    private Server runningInstance;
+class RemoveDocumentTask implements Task {
+	private Server runningInstance;
+	private DocumentStorage storage;
 
-    @Override
-    public TaskResult execute() {
-    	throw new UnsupportedOperationException("not implemented yet");
-    }
-
-	@Override
-    public Server getRunningInstance() {
-        return runningInstance;
-    }
+	RemoveDocumentTask(DocumentStorage storage) {
+		this.storage = storage;
+		// System.out.println("stworzono zadanie: " + this);
+	}
 
 	@Override
-    public void setRunningInstance(Server runningInstance) {
-        this.runningInstance = runningInstance;
-    }
+	public TaskResult execute() {
+		System.out.println("zadanie " + this + " jest wykonywane");
+		boolean success = ((DocumentStorageServer) runningInstance).removeDocument(storage, new Document());
+		return success ? new RemoveDocumentTaskResult() : null;
+	}
+
+	@Override
+	public Server getRunningInstance() {
+		return runningInstance;
+	}
+
+	@Override
+	public void setRunningInstance(Server runningInstance) {
+		this.runningInstance = runningInstance;
+	}
 
 	@Override
 	public String toString() {
-		return "Remove";
+		return "\"usuwanie ze skrytki " + storage + "\"";
 	}
 }
