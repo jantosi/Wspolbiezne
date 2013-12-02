@@ -21,7 +21,7 @@ public class MainTest {
 
     @Before
     public void setUp() throws Exception {
-        server = new BankerServer();
+        server = new BankerServer(50000);
         clients = new ArrayList<Client>();
         for (int i = 0; i < 15; i++) {
             clients.add(new BorrowerClient(){{

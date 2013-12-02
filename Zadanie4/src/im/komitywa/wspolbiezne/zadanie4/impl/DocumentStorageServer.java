@@ -13,7 +13,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class DocumentStorageServer implements Server {
 	private Queue<Task> taskQueue;
 	private ArrayList<DocumentStorage> documents;
-	private int liczbaWykonanychZadan = 0;
 	private int liczbaPrzyjetychZadanDodawania = 0;
 	private int liczbaPrzyjetychZadanUsuwania = 0;
 	private int liczbaWykonanychZadanDodawania = 0;
@@ -79,7 +78,6 @@ public class DocumentStorageServer implements Server {
 					addTaskToQueue(taskFromQueue);
 				} else {
 					System.out.println("serwer wykonal zadanie: " + taskFromQueue);
-					liczbaWykonanychZadan++;
 					if (taskFromQueue instanceof AddDocumentTask) {
 						liczbaWykonanychZadanDodawania++;
 					}
