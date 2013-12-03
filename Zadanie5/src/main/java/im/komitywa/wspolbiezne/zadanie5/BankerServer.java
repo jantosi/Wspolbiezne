@@ -31,6 +31,7 @@ public class BankerServer implements Server {
     @Override
     public boolean borrowMoney(Client client, Integer loanChange) {
         if(canBorrowAmount(client,loanChange)){
+            System.out.println("Lent money ("+loanChange+") to Client "+client+". Current money: "+currentMoney);
             currentMoney-=loanChange;
             client.addMoney(loanChange);
             return true;
@@ -40,15 +41,16 @@ public class BankerServer implements Server {
 
     @Override
     public void run() {
-        while (true) {
+        int idleLoopsQuota = 0;
+        while (idleLoopsQuota<50) {
             if (!taskQueue.isEmpty()) {
+                idleLoopsQuota=0;
                 Pair<Task, Promise> taskPair = taskQueue.remove();
                 BooleanTaskResult result = taskPair.getKey().execute();
                 Promise promise= taskPair.getValue();
                 synchronized (promise){
                     promise.setTaskResult(result);
                     promise.notifyAll();
-                    System.out.println("Promise value set.");
                 }
                 try {
                     Thread.sleep(100);
@@ -61,6 +63,8 @@ public class BankerServer implements Server {
             } catch (InterruptedException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
+            idleLoopsQuota++;
+            System.out.println("Idle loops: " + idleLoopsQuota);
         }
     }
 

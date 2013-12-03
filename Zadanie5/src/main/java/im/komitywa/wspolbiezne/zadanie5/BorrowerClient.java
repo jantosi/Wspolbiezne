@@ -29,11 +29,7 @@ public class BorrowerClient implements Client {
                     promise.wait();
                 }
 
-                if(promise.getTaskResult()!=null){
-                    System.out.println("OK:not null");
-                }
-                else
-                {
+                if(promise.getTaskResult()==null){
                     throw new RuntimeException("Everything is wrong.");
                 }
 
