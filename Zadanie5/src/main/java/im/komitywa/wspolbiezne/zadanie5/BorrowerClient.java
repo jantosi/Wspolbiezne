@@ -38,6 +38,21 @@ public class BorrowerClient implements Client {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
         }
+        //Return all owed money
+        ChangeLoanStateTask returnMoneyTask = new ChangeLoanStateTask();
+        returnMoneyTask.setServer(server);
+        returnMoneyTask.setClient(this);
+        returnMoneyTask.setLoanChange(-1*borrowedAmount);
+
+        Promise promise = new Promise();
+        synchronized (promise) {
+            server.executeTask(returnMoneyTask,promise);
+            try {
+                promise.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+        }
     }
 
     public Integer getMoneyNeeds() {
