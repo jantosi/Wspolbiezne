@@ -23,11 +23,8 @@ public class BankerServer implements Server {
     }
 
     @Override
-    public synchronized Promise executeTask(Task changeLoanStateTask) {
-        Promise promise = new Promise();
+    public void executeTask(Task changeLoanStateTask, Promise promise) {
         taskQueue.add(new Pair<Task, Promise>(changeLoanStateTask,promise));
-        System.out.println("Promise returned.");
-        return promise;
     }
 
     @Override
@@ -42,13 +39,24 @@ public class BankerServer implements Server {
 
     @Override
     public void run() {
-        while(true){
-        while(!taskQueue.isEmpty()){
-           Pair<Task, Promise> taskPair = taskQueue.remove();
-           BooleanTaskResult result = taskPair.getKey().execute();
-           taskPair.getValue().setTaskResult(result);
-           System.out.println("Promise value set.");
-       }}
+        while (true) {
+            if (!taskQueue.isEmpty()) {
+                Pair<Task, Promise> taskPair = taskQueue.remove();
+                BooleanTaskResult result = taskPair.getKey().execute();
+                taskPair.getValue().setTaskResult(result);
+                System.out.println("Promise value set.");
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+            }
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+        }
     }
 
     public Integer getCurrentMoney() {

@@ -1,26 +1,24 @@
 package im.komitywa.wspolbiezne.zadanie5;
 
-import org.junit.Before;
-import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 /**
  * Created with IntelliJ IDEA.
- * User: rafal
- * Date: 27.11.13
- * Time: 16:06
+ * User: Kuba
+ * Date: 03.12.13
+ * Time: 22:47
  * To change this template use File | Settings | File Templates.
  */
-public class MainTest {
+public class Main {
     public static final int MAX_NEEDS = 100;
-    List<Client> clients;
-    Server server;
+    static List<Client> clients;
+    static Server server;
 
-    @Before
-    public void setUp() throws Exception {
+    public static void main(String[] args) throws InterruptedException {
+
+
         server = new BankerServer(50000);
         clients = new ArrayList<Client>();
         for (int i = 0; i < 15; i++) {
@@ -29,10 +27,7 @@ public class MainTest {
                 setServer(server);
             }});
         }
-    }
 
-    @Test
-    public void testMain() throws Exception {
         Thread serverThread = new Thread(server);
         List<Thread> clientThreads = new ArrayList<Thread>(clients.size());
         for (Client client : clients) {
@@ -40,12 +35,12 @@ public class MainTest {
             clientThreads.add(new Thread(client));
         }
 
-        serverThread.run();
-        serverThread.join();
+        serverThread.start();
+
         for (Thread clientThread : clientThreads) {
-            clientThread.run();
-            clientThread.join();
+            clientThread.start();
         }
+
 
     }
 }

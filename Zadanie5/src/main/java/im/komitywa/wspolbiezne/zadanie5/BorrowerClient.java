@@ -23,8 +23,9 @@ public class BorrowerClient implements Client {
                     borrowMoneyTask.setClient(this);
                     borrowMoneyTask.setLoanChange(1);
 
-                Promise promise = server.executeTask(borrowMoneyTask);
+                Promise promise = new Promise();
                 synchronized (promise){
+                    server.executeTask(borrowMoneyTask,promise);
                     promise.wait();
                 }
 
