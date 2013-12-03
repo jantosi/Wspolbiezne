@@ -20,6 +20,7 @@ public class BankerServer implements Server {
 
     public BankerServer(Integer capitalMoney) {
         this.capitalMoney = capitalMoney;
+        currentMoney = capitalMoney;
     }
 
     @Override
@@ -43,8 +44,12 @@ public class BankerServer implements Server {
             if (!taskQueue.isEmpty()) {
                 Pair<Task, Promise> taskPair = taskQueue.remove();
                 BooleanTaskResult result = taskPair.getKey().execute();
-                taskPair.getValue().setTaskResult(result);
-                System.out.println("Promise value set.");
+                Promise promise= taskPair.getValue();
+                synchronized (promise){
+                    promise.setTaskResult(result);
+                    promise.notifyAll();
+                    System.out.println("Promise value set.");
+                }
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {

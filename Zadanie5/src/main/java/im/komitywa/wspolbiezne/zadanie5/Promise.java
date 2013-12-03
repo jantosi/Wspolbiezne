@@ -16,7 +16,6 @@ public class Promise {
 
     public void setTaskResult(BooleanTaskResult taskResult) {
         this.taskResult = taskResult;
-        this.notifyAll();
         System.out.println("Promise wakes up all.");
     }
 }
