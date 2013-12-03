@@ -11,4 +11,6 @@ public interface Server extends Runnable {
     void executeTask(Task changeLoanStateTask, Promise promise);
 
     boolean borrowMoney(Client client, Integer loanChange);
+
+    Integer getAvailable();
 }

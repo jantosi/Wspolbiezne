@@ -1,5 +1,8 @@
 package im.komitywa.wspolbiezne.zadanie5;
 
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.BooleanUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -13,6 +16,7 @@ import java.util.Random;
  */
 public class Main {
     public static final int MAX_NEEDS = 100;
+    public static final int numberOfClients = 15;
     static List<Client> clients;
     static Server server;
 
@@ -21,7 +25,7 @@ public class Main {
 
         server = new BankerServer(50000);
         clients = new ArrayList<Client>();
-        for (int i = 0; i < 15; i++) {
+        for (int i = 0; i < numberOfClients; i++) {
             clients.add(new BorrowerClient(){{
                 setMoneyNeeds(new Random().nextInt(MAX_NEEDS));
                 setServer(server);
@@ -41,9 +45,28 @@ public class Main {
             clientThread.start();
         }
 
-
-
-
-
     }
+
+    public static boolean safetyProcedure() {
+        Integer work = server.getAvailable();
+        Boolean[] finish = new Boolean[numberOfClients];
+        int unfinish;
+        do {
+            unfinish = unfinished(work, finish);
+        } while(unfinish != -1);
+        int unsafe = ArrayUtils.indexOf(finish, false);
+        return unsafe != ArrayUtils.INDEX_NOT_FOUND;
+    }
+
+    private int unfinished(Integer work, Boolean[] finish) {
+        for (int i = 0; i < finish.length; i++) {
+            if (!finish[i] && clients.get(i).getNeed() <= work) {
+                work += clients.get(i).getAllocation();
+                finish[i] = true;
+                return i;
+            }
+        }
+        return -1;
+    }
+
 }

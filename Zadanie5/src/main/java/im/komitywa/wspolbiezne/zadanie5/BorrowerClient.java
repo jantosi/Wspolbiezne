@@ -63,7 +63,7 @@ public class BorrowerClient implements Client {
 
     @Override
     public Integer getMax() {
-        return moneyNeeds;
+        return getMoneyNeeds();
     }
 
     @Override

@@ -40,6 +40,11 @@ public class BankerServer implements Server {
     }
 
     @Override
+    public Integer getAvailable() {
+        return getCurrentMoney();
+    }
+
+    @Override
     public void run() {
         int idleLoopsQuota = 0;
         while (idleLoopsQuota<50) {
@@ -75,6 +80,7 @@ public class BankerServer implements Server {
     }
 
     private boolean canBorrowAmount(Client borrower, Integer amount){
-        return true; //TODO: Logika pożyczania!
+        return Main.safetyProcedure();
+        // return true; //TODO: Logika pożyczania!
     }
 }
