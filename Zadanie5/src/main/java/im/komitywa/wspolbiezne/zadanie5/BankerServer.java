@@ -1,5 +1,10 @@
 package im.komitywa.wspolbiezne.zadanie5;
 
+import javafx.util.Pair;
+
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
+
 /**
  * Created with IntelliJ IDEA.
  * User: rafal
@@ -10,21 +15,40 @@ package im.komitywa.wspolbiezne.zadanie5;
 public class BankerServer implements Server {
 
     private final Integer capitalMoney;
-
     private Integer currentMoney;
+    private Queue<Pair<Task,Promise>> taskQueue = new ConcurrentLinkedQueue<Pair<Task, Promise>>();
 
     public BankerServer(Integer capitalMoney) {
         this.capitalMoney = capitalMoney;
     }
 
     @Override
-    public void executeTask(Task changeLoanStateTask) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public synchronized Promise executeTask(Task changeLoanStateTask) {
+        Promise promise = new Promise();
+        taskQueue.add(new Pair<Task, Promise>(changeLoanStateTask,promise));
+        System.out.println("Promise returned.");
+        return promise;
+    }
+
+    @Override
+    public boolean borrowMoney(Client client, Integer loanChange) {
+        if(canBorrowAmount(client,loanChange)){
+            currentMoney-=loanChange;
+            client.addMoney(loanChange);
+            return true;
+        }
+        return false;
     }
 
     @Override
     public void run() {
-        //To change body of implemented methods use File | Settings | File Templates.
+        while(true){
+        while(!taskQueue.isEmpty()){
+           Pair<Task, Promise> taskPair = taskQueue.remove();
+           BooleanTaskResult result = taskPair.getKey().execute();
+           taskPair.getValue().setTaskResult(result);
+           System.out.println("Promise value set.");
+       }}
     }
 
     public Integer getCurrentMoney() {
@@ -33,5 +57,9 @@ public class BankerServer implements Server {
 
     public void setCurrentMoney(Integer currentMoney) {
         this.currentMoney = currentMoney;
+    }
+
+    private boolean canBorrowAmount(Client borrower, Integer amount){
+        return true; //TODO: Logika pożyczania!
     }
 }

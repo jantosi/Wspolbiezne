@@ -42,7 +42,7 @@ public class ChangeLoanStateTask implements Task {
     }
 
     @Override
-    public void execute() {
-        server.executeTask(this);
+    public BooleanTaskResult execute() {
+        return new BooleanTaskResult(server.borrowMoney(client, loanChange));
     }
 }

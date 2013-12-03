@@ -36,6 +36,7 @@ public class MainTest {
         Thread serverThread = new Thread(server);
         List<Thread> clientThreads = new ArrayList<Thread>(clients.size());
         for (Client client : clients) {
+            client.setServer(server);
             clientThreads.add(new Thread(client));
         }
 

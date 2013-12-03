@@ -8,5 +8,7 @@ package im.komitywa.wspolbiezne.zadanie5;
  * To change this template use File | Settings | File Templates.
  */
 public interface Server extends Runnable {
-    void executeTask(Task changeLoanStateTask);
+    Promise executeTask(Task changeLoanStateTask);
+
+    boolean borrowMoney(Client client, Integer loanChange);
 }

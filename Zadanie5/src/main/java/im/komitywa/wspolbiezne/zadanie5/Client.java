@@ -10,4 +10,6 @@ package im.komitywa.wspolbiezne.zadanie5;
 public interface Client extends Runnable{
     public Server getServer();
     public void setServer(Server server);
+
+    public void addMoney(Integer amount);
 }

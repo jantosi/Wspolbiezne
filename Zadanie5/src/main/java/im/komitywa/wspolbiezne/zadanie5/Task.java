@@ -12,5 +12,5 @@ public interface Task {
     public void setServer(Server server);
     public Client getClient();
     public void setClient(Client client);
-    public void execute();
+    public BooleanTaskResult execute();
 }
