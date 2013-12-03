@@ -53,8 +53,10 @@ public class BankerServer implements Server {
                 Pair<Task, Promise> taskPair = taskQueue.remove();
                 BooleanTaskResult result = taskPair.getKey().execute();
                 Promise promise= taskPair.getValue();
-                promise.setTaskResult(result);
-                promise.notifyAll();
+                synchronized (promise) {
+                    promise.setTaskResult(result);
+                    promise.notifyAll();
+                }
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {

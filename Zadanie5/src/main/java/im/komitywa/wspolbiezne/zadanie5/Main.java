@@ -49,7 +49,7 @@ public class Main {
 
     public static boolean safetyProcedure() {
         Integer work = server.getAvailable();
-        Boolean[] finish = new Boolean[numberOfClients];
+        boolean[] finish = new boolean[numberOfClients];
         int unfinish;
         do {
             unfinish = unfinished(work, finish);
@@ -58,8 +58,8 @@ public class Main {
         return unsafe != ArrayUtils.INDEX_NOT_FOUND;
     }
 
-    private int unfinished(Integer work, Boolean[] finish) {
-        for (int i = 0; i < finish.length; i++) {
+    private static int unfinished(Integer work, boolean[] finish) {
+        for (int i = 0; i < numberOfClients; i++) {
             if (!finish[i] && clients.get(i).getNeed() <= work) {
                 work += clients.get(i).getAllocation();
                 finish[i] = true;

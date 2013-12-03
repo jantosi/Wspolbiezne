@@ -24,8 +24,10 @@ public class BorrowerClient implements Client {
                     borrowMoneyTask.setLoanChange(1);
 
                 Promise promise = new Promise();
-                server.executeTask(borrowMoneyTask,promise);
-                promise.wait();
+                synchronized (promise) {
+                    server.executeTask(borrowMoneyTask,promise);
+                    promise.wait();
+                }
 
                 if(promise.getTaskResult()==null){
                     throw new RuntimeException("Everything is wrong.");
