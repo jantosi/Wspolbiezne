@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class BankerServer implements Server {
 
     private final Integer capitalMoney;
-    private Integer currentMoney;
+    private Integer currentMoney; // Available
     private Queue<Pair<Task,Promise>> taskQueue = new ConcurrentLinkedQueue<Pair<Task, Promise>>();
 
     public BankerServer(Integer capitalMoney) {
@@ -48,10 +48,8 @@ public class BankerServer implements Server {
                 Pair<Task, Promise> taskPair = taskQueue.remove();
                 BooleanTaskResult result = taskPair.getKey().execute();
                 Promise promise= taskPair.getValue();
-                synchronized (promise){
-                    promise.setTaskResult(result);
-                    promise.notifyAll();
-                }
+                promise.setTaskResult(result);
+                promise.notifyAll();
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {

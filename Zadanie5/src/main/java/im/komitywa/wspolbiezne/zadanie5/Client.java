@@ -12,4 +12,8 @@ public interface Client extends Runnable{
     public void setServer(Server server);
 
     public void addMoney(Integer amount);
+
+    public Integer getMax();
+    public Integer getAllocation();
+    public Integer getNeed();
 }
