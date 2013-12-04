@@ -77,7 +77,8 @@ public class BorrowerClient implements Client {
 
     @Override
     public void addMoney(Integer amount) {
-        borrowedAmount+=amount;
+        borrowedAmount += amount;
+        System.out.println("pozyczylem " + borrowedAmount + " florenow");
     }
 
     @Override
