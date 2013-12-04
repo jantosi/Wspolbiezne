@@ -53,6 +53,8 @@ public class BorrowerClient implements Client {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
         }
+        //Die.
+        server.setNumberOfRunningClients(server.getNumberOfRunningClients()-1);
     }
 
     public Integer getMoneyNeeds() {

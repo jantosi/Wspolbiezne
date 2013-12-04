@@ -14,6 +14,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 public class BankerServer implements Server {
 
+    private int numberOfRunningClients;
     private final Integer capitalMoney;
     private Integer currentMoney; // Available
     private Queue<Pair<Task,Promise>> taskQueue = new ConcurrentLinkedQueue<Pair<Task, Promise>>();
@@ -47,7 +48,7 @@ public class BankerServer implements Server {
     @Override
     public void run() {
         int idleLoopsQuota = 0;
-        while (idleLoopsQuota<50) {
+        while (idleLoopsQuota<50 && numberOfRunningClients>0) {
             if (!taskQueue.isEmpty()) {
                 idleLoopsQuota=0;
                 Pair<Task, Promise> taskPair = taskQueue.remove();
@@ -69,7 +70,9 @@ public class BankerServer implements Server {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
             idleLoopsQuota++;
-            System.out.println("Idle loops: " + idleLoopsQuota);
+            if (idleLoopsQuota > 1) {
+                System.out.println("Idle loops: " + idleLoopsQuota);
+            }
         }
     }
 
@@ -82,7 +85,20 @@ public class BankerServer implements Server {
     }
 
     private boolean canBorrowAmount(Client borrower, Integer amount){
-        return Main.safetyProcedure();
+
+        boolean b = Main.safetyProcedure();
+        System.out.println(b+": "+amount+", current pool "+this.currentMoney);
+        return b;
+
         // return true; //TODO: Logika pożyczania!
+    }
+
+    public int getNumberOfRunningClients() {
+        return numberOfRunningClients;
+    }
+
+    public void setNumberOfRunningClients(int numberOfRunningClients) {
+        System.out.println(numberOfRunningClients+" client(s) currently running.");
+        this.numberOfRunningClients = numberOfRunningClients;
     }
 }

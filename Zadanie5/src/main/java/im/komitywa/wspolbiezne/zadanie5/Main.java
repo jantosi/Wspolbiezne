@@ -15,7 +15,7 @@ import java.util.Random;
  * To change this template use File | Settings | File Templates.
  */
 public class Main {
-    public static final int MAX_NEEDS = 100;
+    public static final int MAX_NEEDS = 10;
     public static final int numberOfClients = 15;
     static List<Client> clients;
     static Server server;
@@ -23,7 +23,8 @@ public class Main {
     public static void main(String[] args) throws InterruptedException {
 
 
-        server = new BankerServer(50000);
+        server = new BankerServer(120);
+        server.setNumberOfRunningClients(numberOfClients);
         clients = new ArrayList<Client>();
         for (int i = 0; i < numberOfClients; i++) {
             clients.add(new BorrowerClient(){{
@@ -31,6 +32,7 @@ public class Main {
                 setServer(server);
             }});
         }
+
 
         Thread serverThread = new Thread(server);
         List<Thread> clientThreads = new ArrayList<Thread>(clients.size());
@@ -55,7 +57,9 @@ public class Main {
             unfinish = unfinished(work, finish);
         } while(unfinish != -1);
         int unsafe = ArrayUtils.indexOf(finish, false);
-        return unsafe != ArrayUtils.INDEX_NOT_FOUND;
+        boolean res = (unsafe == ArrayUtils.INDEX_NOT_FOUND);
+        System.out.println("Will the system stay in safe state? "+res);
+        return res;
     }
 
     private static int unfinished(Integer work, boolean[] finish) {

@@ -13,4 +13,8 @@ public interface Server extends Runnable {
     boolean borrowMoney(Client client, Integer loanChange);
 
     Integer getAvailable();
+
+    void setNumberOfRunningClients(int numberOfClients);
+
+    int getNumberOfRunningClients();
 }
